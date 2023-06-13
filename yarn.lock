@@ -10,6 +10,35 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
+"@axelor/aos-mobile-core@7.0.0":
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/@axelor/aos-mobile-core/-/aos-mobile-core-7.0.0.tgz#0011f171f7f81364ce88b641778580c7758d4724"
+  integrity sha512-QauC3cH5sNewlQrdXICishk1tJswaxX8pDyJXcskXNdedEg7KWfd9ka0HRcAKIjcSa9NheR3mcq2QJZmzYNTDA==
+  dependencies:
+    "@axelor/aos-mobile-error" "7.0.0"
+    "@axelor/aos-mobile-ui" "7.0.0"
+    "@react-navigation/drawer" "6.4.1"
+    "@react-navigation/native" "6.0.10"
+    "@react-navigation/native-stack" "6.6.1"
+    "@react-navigation/stack" "6.2.1"
+    "@reduxjs/toolkit" "^1.8.5"
+    moment "^2.29.4"
+    react-native-calendars "1.1284"
+    react-native-reanimated "2.10.0"
+    react-native-syntax-highlighter "^2.1.0"
+    react-redux "^7.2.8"
+    yup "^1.0.2"
+
+"@axelor/aos-mobile-error@7.0.0":
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/@axelor/aos-mobile-error/-/aos-mobile-error-7.0.0.tgz#c1a35749a001b2a95f0597f574d47f96505c5478"
+  integrity sha512-Gwc0Av+cYinarAbv5KRiFGG7HEgY2uOvTWWmrg+Z+IPTVsQ8qNQrOPfcdMKTe2JkzGTtyCFLEkMYkOhmJcx1mQ==
+
+"@axelor/aos-mobile-ui@7.0.0":
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/@axelor/aos-mobile-ui/-/aos-mobile-ui-7.0.0.tgz#db686ee1445aa266acb15d1aa745041bcc0d361b"
+  integrity sha512-37TBwqOPh2cCMgxG60szHnkGGlUMQmqDgF73wiv8qI41LVyCYs8y7U/VCXCme0aOeuK0VndoC1cwvIpJ6E1VnA==
+
 "@babel/code-frame@7.12.11":
   version "7.12.11"
   resolved "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.12.11.tgz#f4ad435aa263db935b8f10f2c552d23fb716a63f"
@@ -15161,9 +15190,9 @@ terser@^4.1.2, terser@^4.6.3:
     source-map-support "~0.5.12"
 
 terser@^5.16.8, terser@^5.3.4:
-  version "5.18.0"
-  resolved "https://registry.npmjs.org/terser/-/terser-5.18.0.tgz#dc811fb8e3481a875d545bda247c8730ee4dc76b"
-  integrity sha512-pdL757Ig5a0I+owA42l6tIuEycRuM7FPY4n62h44mRLRfnOxJkkOHd6i89dOpwZlpF6JXBwaAHF6yWzFrt+QyA==
+  version "5.18.1"
+  resolved "https://registry.npmjs.org/terser/-/terser-5.18.1.tgz#6d8642508ae9fb7b48768e48f16d675c89a78460"
+  integrity sha512-j1n0Ao919h/Ai5r43VAnfV/7azUYW43GPxK7qSATzrsERfW7+y2QW9Cp9ufnRF5CQUWbnLSo7UJokSWCqg4tsQ==
   dependencies:
     "@jridgewell/source-map" "^0.3.3"
     acorn "^8.8.2"
