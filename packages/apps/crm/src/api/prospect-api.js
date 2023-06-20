@@ -17,9 +17,9 @@
  */
 
 import {
-  axiosApiProvider,
   createStandardFetch,
   createStandardSearch,
+  getActionApi,
   getSearchCriterias,
   RouterProvider,
 } from '@axelor/aos-mobile-core';
@@ -79,6 +79,7 @@ export async function searchProspect({
     fieldKey: 'crm_prospect',
     sortKey: 'crm_prospect',
     page,
+    provider: 'model',
   });
 }
 
@@ -87,6 +88,7 @@ export async function getProspect({partnerId}) {
     model: 'com.axelor.apps.base.db.Partner',
     id: partnerId,
     fieldKey: 'crm_prospect',
+    provider: 'model',
   });
 }
 
@@ -105,14 +107,21 @@ export async function updateProspectScoring({
   partnerVersion,
   newScore,
 }) {
-  return axiosApiProvider.post({
+  return getActionApi().send({
     url: '/ws/rest/com.axelor.apps.base.db.Partner',
-    data: {
+    method: 'post',
+    body: {
       data: {
         id: partnerId,
         version: partnerVersion,
         leadScoringSelect: newScore,
       },
+    },
+    description: 'update prospect scoring',
+    matchers: {
+      id: 'data.id',
+      version: 'data.version',
+      leadScoringSelect: 'data.leadScoringSelect',
     },
   });
 }
@@ -131,21 +140,29 @@ export async function updateProspect({
 }) {
   const route = await RouterProvider.get('EmailAddress');
 
-  return axiosApiProvider
-    .post({
+  return getActionApi()
+    .send({
       url: route,
-      data: {
+      method: 'post',
+      body: {
         data: {
           id: emailId,
           version: emailVersion,
           address: email,
         },
       },
+      description: 'update prospect email',
+      matchers: {
+        id: 'data.id',
+        version: 'data.version',
+        address: 'data.address',
+      },
     })
     .then(() =>
-      axiosApiProvider.post({
+      getActionApi().send({
         url: '/ws/rest/com.axelor.apps.base.db.Partner',
-        data: {
+        method: 'post',
+        body: {
           data: {
             id,
             version,
@@ -155,6 +172,16 @@ export async function updateProspect({
             webSite,
             description,
           },
+        },
+        description: 'update prospect',
+        matchers: {
+          id: 'data.id',
+          version: 'data.version',
+          leadScoringSelect: 'data.leadScoringSelect',
+          name: 'data.name',
+          fixedPhone: 'data.fixedPhone',
+          webSite: 'data.webSite',
+          description: 'data.description',
         },
       }),
     );

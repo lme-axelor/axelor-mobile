@@ -17,9 +17,9 @@
  */
 
 import {
-  axiosApiProvider,
   createStandardFetch,
   createStandardSearch,
+  getActionApi,
   getSearchCriterias,
   RouterProvider,
 } from '@axelor/aos-mobile-core';
@@ -78,6 +78,7 @@ export async function searchContactWithIds(idList) {
     fieldKey: 'crm_contact',
     numberElementsByPage: null,
     page: 0,
+    provider: 'model',
   });
 }
 
@@ -88,6 +89,7 @@ export async function searchContact({searchValue, page = 0, userId, assigned}) {
     fieldKey: 'crm_contact',
     sortKey: 'crm_contact',
     page,
+    provider: 'model',
   });
 }
 
@@ -96,6 +98,7 @@ export async function getContact({contactId}) {
     model: 'com.axelor.apps.base.db.Partner',
     id: contactId,
     fieldKey: 'crm_contact',
+    provider: 'model',
   });
 }
 
@@ -116,21 +119,29 @@ export async function updateContact({
 }) {
   const route = await RouterProvider.get('EmailAddress');
 
-  return axiosApiProvider
-    .post({
+  return getActionApi()
+    .send({
       url: route,
-      data: {
+      method: 'post',
+      body: {
         data: {
           id: emailId,
           version: emailVersion,
           address: email,
         },
       },
+      description: 'update contact email',
+      matchers: {
+        id: 'data.id',
+        version: 'data.version',
+        address: 'data.address',
+      },
     })
     .then(() =>
-      axiosApiProvider.post({
+      getActionApi().send({
         url: '/ws/rest/com.axelor.apps.base.db.Partner',
-        data: {
+        method: 'post',
+        body: {
           data: {
             id,
             version,
@@ -143,6 +154,19 @@ export async function updateContact({
             description,
             mainPartner,
           },
+        },
+        description: 'update contact',
+        matchers: {
+          id: 'data.id',
+          version: 'data.version',
+          titleSelect: 'data.titleSelect',
+          firstName: 'data.firstName',
+          name: 'data.name',
+          fixedPhone: 'data.fixedPhone',
+          mobilePhone: 'data.mobilePhone',
+          webSite: 'data.webSite',
+          description: 'data.description',
+          mainPartner: 'data.mainPartner',
         },
       }),
     );

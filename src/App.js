@@ -17,7 +17,15 @@
  */
 
 import React from 'react';
-import {Application} from '@axelor/aos-mobile-core';
+import {
+  AopModelApi,
+  AosActionApi,
+  Application,
+  GatewayActionApi,
+  GatewayModelApi,
+  registerActionApi,
+  registerModelApi,
+} from '@axelor/aos-mobile-core';
 import {StockModule} from '@axelor/aos-mobile-stock';
 import {ManufacturingModule} from '@axelor/aos-mobile-manufacturing';
 import {CrmModule} from '@axelor/aos-mobile-crm';
@@ -25,10 +33,21 @@ import {HelpDeskModule} from '@axelor/aos-mobile-helpdesk';
 import {HrModule} from '@axelor/aos-mobile-hr';
 import {QualityModule} from '@axelor/aos-mobile-quality';
 import {InterventionModule} from '@axelor/aos-mobile-intervention';
+import {
+  actionRequester,
+  OfflineModule,
+  StorageModelApi,
+} from '@aos-mobile-priv/offline';
 import application_properties from '../package.json';
 import {app_config} from './app.config';
 
 const App = () => {
+  registerModelApi(
+    new GatewayModelApi(new AopModelApi(), new StorageModelApi()),
+  );
+
+  registerActionApi(new GatewayActionApi(new AosActionApi(), actionRequester));
+
   return (
     <Application
       modules={[
@@ -39,6 +58,7 @@ const App = () => {
         HrModule,
         QualityModule,
         InterventionModule,
+        OfflineModule,
       ]}
       mainMenu="auth_menu_user"
       version={application_properties.version}

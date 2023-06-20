@@ -17,9 +17,9 @@
  */
 
 import {
-  axiosApiProvider,
   createStandardFetch,
   createStandardSearch,
+  getActionApi,
   getSearchCriterias,
   getTypes,
 } from '@axelor/aos-mobile-core';
@@ -109,6 +109,7 @@ export async function searchSupplierArrivalFilter({
     fieldKey: 'stock_supplierArrival',
     sortKey: 'stock_supplierArrival',
     page,
+    provider: 'model',
   });
 }
 
@@ -117,6 +118,7 @@ export async function fetchSupplierArrival({supplierArrivalId}) {
     model: 'com.axelor.apps.stock.db.StockMove',
     id: supplierArrivalId,
     fieldKey: 'stock_supplierArrival',
+    provider: 'model',
   });
 }
 
@@ -133,9 +135,10 @@ export async function addLineStockMove({
 }) {
   const StockMove = getTypes().StockMove;
 
-  return axiosApiProvider.post({
+  return getActionApi().send({
     url: `/ws/aos/stock-move/add-line/${stockMoveId}`,
-    data: {
+    method: 'post',
+    body: {
       productId: productId,
       unitId: unitId,
       trackingNumberId: trackingNumberId,
@@ -145,14 +148,33 @@ export async function addLineStockMove({
       version,
       toStockLocationId,
     },
+    description: 'add new supplier arrival line',
+    matchers: {
+      modelName: 'com.axelor.apps.stock.db.StockMoveLine',
+      id: Date.now(),
+      fields: {
+        productId: 'product.id',
+        unitId: 'unit.id',
+        trackingNumberId: 'trackingNumber.id',
+        qty: 'expectedQty',
+        conformity: 'conformitySelect',
+      },
+    },
   });
 }
 
 export async function realizeSockMove({stockMoveId, version}) {
-  return axiosApiProvider.put({
+  return getActionApi().send({
     url: `/ws/aos/stock-move/realize/${stockMoveId}`,
-    data: {
+    method: 'put',
+    body: {
       version: version,
+    },
+    description: 'realize sipplier arrival',
+    matchers: {
+      modelName: 'com.axelor.apps.stock.db.StockMove',
+      id: stockMoveId,
+      fields: {},
     },
   });
 }

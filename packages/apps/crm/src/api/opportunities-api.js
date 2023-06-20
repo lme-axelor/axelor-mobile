@@ -17,9 +17,9 @@
  */
 
 import {
-  axiosApiProvider,
   createStandardFetch,
   createStandardSearch,
+  getActionApi,
   getSearchCriterias,
 } from '@axelor/aos-mobile-core';
 
@@ -71,6 +71,7 @@ export async function searchOpportunities({
     fieldKey: 'crm_opportunity',
     sortKey: 'crm_opportunity',
     page,
+    provider: 'model',
   });
 }
 
@@ -81,6 +82,7 @@ export async function getOpportunityStatus() {
     sortKey: 'crm_opportunityStatus',
     numberElementsByPage: null,
     page: 0,
+    provider: 'model',
   });
 }
 
@@ -100,6 +102,7 @@ export async function getOpportunity({opportunityId}) {
       ],
       user: ['name'],
     },
+    provider: 'model',
   });
 }
 
@@ -108,14 +111,21 @@ export async function updateOpportunityScoring({
   opportunityVersion,
   newScore,
 }) {
-  return axiosApiProvider.post({
+  return getActionApi().send({
     url: '/ws/rest/com.axelor.apps.crm.db.Opportunity',
-    data: {
+    method: 'post',
+    body: {
       data: {
         id: opportunityId,
         version: opportunityVersion,
         opportunityRating: newScore,
       },
+    },
+    description: 'update opportunity scoring',
+    matchers: {
+      id: 'data.id',
+      version: 'data.version',
+      opportunityRating: 'data.opportunityRating',
     },
   });
 }
@@ -125,9 +135,10 @@ export async function updateOpportunityStatus({
   version,
   opportunityStatusId,
 }) {
-  return axiosApiProvider.post({
+  return getActionApi().send({
     url: '/ws/rest/com.axelor.apps.crm.db.Opportunity',
-    data: {
+    method: 'post',
+    body: {
       data: {
         id: opportunityId,
         version: version,
@@ -136,23 +147,57 @@ export async function updateOpportunityStatus({
         },
       },
     },
+    description: 'update opportunity status',
+    matchers: {
+      id: 'data.id',
+      version: 'data.version',
+      opportunityStatus: 'data.opportunityStatus',
+    },
   });
 }
 
 export async function updateOpportunity({opportunity}) {
-  return axiosApiProvider.post({
+  return getActionApi().send({
     url: '/ws/rest/com.axelor.apps.crm.db.Opportunity',
-    data: {
+    method: 'post',
+    body: {
       data: opportunity,
+    },
+    description: 'update opportunity',
+    matchers: {
+      id: 'data.id',
+      version: 'data.version',
+      amount: 'data.amount',
+      recurrentAmount: 'data.recurrentAmount',
+      description: 'data.description',
+      opportunityStatus: 'data.opportunityStatus',
+      partner: 'data.partner',
+      contact: 'data.contact',
+      expectedCloseDate: 'data.expectedCloseDate',
+      opportunityRating: 'data.opportunityRating',
     },
   });
 }
 
 export async function createOpportunity({opportunity}) {
-  return axiosApiProvider.put({
+  return getActionApi().send({
     url: '/ws/rest/com.axelor.apps.crm.db.Opportunity',
-    data: {
+    method: 'put',
+    body: {
       data: opportunity,
+    },
+    description: 'create opportunity',
+    matchers: {
+      amount: 'data.amount',
+      recurrentAmount: 'data.recurrentAmount',
+      description: 'data.description',
+      opportunityStatus: 'data.opportunityStatus',
+      partner: 'data.partner',
+      contact: 'data.contact',
+      expectedCloseDate: 'data.expectedCloseDate',
+      opportunityRating: 'data.opportunityRating',
+      user: 'data.user',
+      name: 'data.name',
     },
   });
 }
