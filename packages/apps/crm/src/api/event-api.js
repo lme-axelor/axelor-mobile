@@ -86,6 +86,7 @@ export async function searchEventsByIds(idList) {
     fieldKey: 'crm_event',
     numberElementsByPage: null,
     page: 0,
+    provider: 'model',
   });
 }
 
@@ -102,6 +103,7 @@ export async function partnerEventById(id) {
     fieldKey: 'crm_event',
     numberElementsByPage: null,
     page: 0,
+    provider: 'model',
   });
 }
 
@@ -118,6 +120,7 @@ export async function contactEventById(id) {
     fieldKey: 'crm_event',
     numberElementsByPage: null,
     page: 0,
+    provider: 'model',
   });
 }
 
@@ -129,6 +132,7 @@ export async function getPlannedEvent({date, searchValue = null}) {
     sortKey: 'crm_event',
     numberElementsByPage: null,
     page: 0,
+    provider: 'model',
   });
 }
 
@@ -137,5 +141,6 @@ export async function getEvent({eventId}) {
     model: 'com.axelor.apps.crm.db.Event',
     id: eventId,
     fieldKey: 'crm_event',
+    provider: 'model',
   });
 }

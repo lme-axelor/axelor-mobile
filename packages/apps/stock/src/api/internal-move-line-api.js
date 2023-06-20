@@ -17,9 +17,9 @@
  */
 
 import {
-  axiosApiProvider,
   createStandardFetch,
   createStandardSearch,
+  getActionApi,
   getSearchCriterias,
 } from '@axelor/aos-mobile-core';
 
@@ -44,6 +44,7 @@ export async function searchInternalMoveLines({
     criteria: createSearchCriteria(internalMoveId, searchValue),
     fieldKey: 'stock_internalMoveLine',
     page,
+    provider: 'model',
   });
 }
 
@@ -53,12 +54,21 @@ export async function updateInternalMoveLine({
   realQty,
   unitId,
 }) {
-  return axiosApiProvider.put({
+  return getActionApi().send({
     url: `/ws/aos/stock-move-line/${stockMoveLineId}`,
-    data: {
+    method: 'put',
+    body: {
       version: version,
       realQty: realQty,
       unitId: unitId,
+    },
+    description: 'update internal move line qty',
+    matchers: {
+      modelName: 'com.axelor.apps.stock.db.StockMoveLine',
+      id: stockMoveLineId,
+      fields: {
+        unitId: 'unit.id',
+      },
     },
   });
 }
@@ -68,5 +78,6 @@ export async function fetchInternalMoveLine({internalMoveLineId}) {
     model: 'com.axelor.apps.stock.db.StockMoveLine',
     id: internalMoveLineId,
     fieldKey: 'stock_internalMoveLine',
+    provider: 'model',
   });
 }

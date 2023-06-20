@@ -17,9 +17,9 @@
  */
 
 import {
-  axiosApiProvider,
   createStandardFetch,
   createStandardSearch,
+  getActionApi,
   getSearchCriterias,
   RouterProvider,
 } from '@axelor/aos-mobile-core';
@@ -42,6 +42,7 @@ export async function searchLeads({searchValue, page = 0}) {
     fieldKey: 'crm_lead',
     sortKey: 'crm_lead',
     page,
+    provider: 'model',
   });
 }
 
@@ -50,6 +51,7 @@ export async function getLead({leadId}) {
     model: 'com.axelor.apps.crm.db.Lead',
     id: leadId,
     fieldKey: 'crm_lead',
+    provider: 'model',
   });
 }
 
@@ -66,18 +68,26 @@ export async function getLeadStatus() {
     fieldKey: 'crm_leadStatus',
     numberElementsByPage: null,
     page: 0,
+    provider: 'model',
   });
 }
 
 export async function updateLeadScoring({leadId, leadVersion, newScore}) {
-  return axiosApiProvider.post({
+  return getActionApi().send({
     url: '/ws/rest/com.axelor.apps.crm.db.Lead',
-    data: {
+    method: 'post',
+    body: {
       data: {
         id: leadId,
         version: leadVersion,
         leadScoringSelect: newScore,
       },
+    },
+    description: 'update lead scoring',
+    matchers: {
+      id: 'data.id',
+      version: 'data.version',
+      leadScoringSelect: 'data.leadScoringSelect',
     },
   });
 }
@@ -103,22 +113,29 @@ export async function updateLead({
   emailVersion,
 }) {
   const route = await RouterProvider.get('EmailAddress');
-
-  return axiosApiProvider
-    .post({
+  return getActionApi()
+    .send({
       url: route,
-      data: {
+      method: 'post',
+      body: {
         data: {
           id: emailId,
           version: emailVersion,
           address: leadEmail,
         },
       },
+      description: 'update lead email',
+      matchers: {
+        id: 'data.id',
+        version: 'data.version',
+        address: 'data.address',
+      },
     })
-    .then(res =>
-      axiosApiProvider.post({
+    .then(() =>
+      getActionApi().send({
         url: '/ws/rest/com.axelor.apps.crm.db.Lead',
-        data: {
+        method: 'post',
+        body: {
           data: {
             id: leadId,
             version: leadVersion,
@@ -138,6 +155,24 @@ export async function updateLead({
             webSite: leadWebsite,
             description: leadDescription,
           },
+        },
+        description: 'update lead',
+        matchers: {
+          id: 'data.id',
+          version: 'data.version',
+          leadScoringSelect: 'data.leadScoringSelect',
+          titleSelect: 'data.titleSelect',
+          firstName: 'data.firstName',
+          name: 'data.name',
+          isDoNotSendEmail: 'data.isDoNotSendEmail',
+          isDoNotCall: 'data.isDoNotCall',
+          enterpriseName: 'data.enterpriseName',
+          primaryAddress: 'data.primaryAddress',
+          jobTitleFunction: 'data.jobTitleFunction',
+          fixedPhone: 'data.fixedPhone',
+          mobilePhone: 'data.mobilePhone',
+          webSite: 'data.webSite',
+          description: 'data.description',
         },
       }),
     );
@@ -161,9 +196,10 @@ export async function createLead({
   contactDate,
   userId,
 }) {
-  return axiosApiProvider.post({
+  return getActionApi().send({
     url: '/ws/rest/com.axelor.apps.crm.db.Lead',
-    data: {
+    method: 'put',
+    body: {
       data: {
         leadScoringSelect: leadScore,
         titleSelect: leadCivility,
@@ -186,6 +222,25 @@ export async function createLead({
           address: leadEmail,
         },
       },
+    },
+    description: 'create lead',
+    matchers: {
+      leadScoringSelect: 'data.leadScoringSelect',
+      titleSelect: 'data.titleSelect',
+      firstName: 'data.firstName',
+      name: 'data.name',
+      isDoNotSendEmail: 'data.isDoNotSendEmail',
+      isDoNotCall: 'data.isDoNotCall',
+      enterpriseName: 'data.enterpriseName',
+      primaryAddress: 'data.primaryAddress',
+      jobTitleFunction: 'data.jobTitleFunction',
+      fixedPhone: 'data.fixedPhone',
+      mobilePhone: 'data.mobilePhone',
+      webSite: 'data.webSite',
+      description: 'data.description',
+      contactDate: 'data.contactDate',
+      user: 'data.user',
+      emailAddress: 'data.emailAddress',
     },
   });
 }

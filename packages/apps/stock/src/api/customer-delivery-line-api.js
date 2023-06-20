@@ -17,9 +17,9 @@
  */
 
 import {
-  axiosApiProvider,
   createStandardFetch,
   createStandardSearch,
+  getActionApi,
   getSearchCriterias,
 } from '@axelor/aos-mobile-core';
 
@@ -44,15 +44,23 @@ export async function searchCustomerDeliveryLines({
     criteria: createSearchCriteria(customerDeliveryId, searchValue),
     fieldKey: 'stock_customerDeliveryLine',
     page,
+    provider: 'model',
   });
 }
 
 export async function updateLine({stockMoveLineId, version, realQty}) {
-  return axiosApiProvider.put({
+  return getActionApi().send({
     url: `/ws/aos/stock-move-line/${stockMoveLineId}`,
-    data: {
+    method: 'put',
+    body: {
       version: version,
       realQty: realQty,
+    },
+    description: 'update customer delivery line qty',
+    matchers: {
+      modelName: 'com.axelor.apps.stock.db.StockMoveLine',
+      id: stockMoveLineId,
+      fields: {},
     },
   });
 }
@@ -62,5 +70,6 @@ export async function fetchCustomerDeliveryLine({customerDeliveryLineId}) {
     model: 'com.axelor.apps.stock.db.StockMoveLine',
     id: customerDeliveryLineId,
     fieldKey: 'stock_customerDeliveryLine',
+    provider: 'model',
   });
 }

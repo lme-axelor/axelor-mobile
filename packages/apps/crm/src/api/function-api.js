@@ -16,10 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {axiosApiProvider} from '@axelor/aos-mobile-core';
+import {createStandardSearch} from '@axelor/aos-mobile-core';
 
 export async function getFunction() {
-  return axiosApiProvider.get({
-    url: '/ws/rest/com.axelor.apps.base.db.Function/',
+  return createStandardSearch({
+    model: 'com.axelor.apps.base.db.Function',
+    fieldKey: 'crm_function',
+    numberElementsByPage: null,
+    page: 0,
+    provider: 'model',
   });
 }

@@ -160,6 +160,9 @@ export const stock_modelAPI: ObjectFields = {
     baseQty: schemaContructor.number(),
     stockCorrectionReason: schemaContructor.subObject('name'),
   }),
+  stock_stockCorrectionReason: schemaContructor.object({
+    name: schemaContructor.string(),
+  }),
   stock_stockLocation: schemaContructor.object({
     name: schemaContructor.string(),
     serialNumber: schemaContructor.string(),
@@ -225,5 +228,8 @@ export const stock_modelAPI: ObjectFields = {
   stock_trackingNumber: schemaContructor.object({
     trackingNumberSeq: schemaContructor.string(),
     serialNumber: schemaContructor.string(),
+  }),
+  stock_unit: schemaContructor.object({
+    name: schemaContructor.string(),
   }),
 };
