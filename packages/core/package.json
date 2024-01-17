@@ -46,7 +46,7 @@
     "react-native-toast-message": "^2.1.5",
     "react-native-vector-icons": "^9.2.0",
     "react-native-vision-camera": "2.15.6",
-    "rn-fetch-blob": "0.13.0-beta.1",
+    "rn-fetch-blob": "0.13.0-beta.2",
     "vision-camera-code-scanner": "^0.2.0"
   },
   "devDependencies": {
@@ -80,7 +80,7 @@
     "react-native-toast-message": "^2.1.5",
     "react-native-vector-icons": "^9.2.0",
     "react-native-vision-camera": "2.15.6",
-    "rn-fetch-blob": "0.13.0-beta.1",
+    "rn-fetch-blob": "0.13.0-beta.2",
     "vision-camera-code-scanner": "^0.2.0"
   },
   "dependencies": {
