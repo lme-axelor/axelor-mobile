@@ -2178,19 +2178,19 @@
     react-is "^16.13.0"
     use-latest-callback "^0.1.7"
 
-"@react-navigation/drawer@6.6.3":
-  version "6.6.3"
-  resolved "https://registry.npmjs.org/@react-navigation/drawer/-/drawer-6.6.3.tgz#ad48b3e0a2d2771e7fc8bc46a8b269ef2ae11e54"
-  integrity sha512-oQzHqH6svtSIun6+rikQtku6ye2CyyxT4xf3RQLVsBvK7+g4tDdKKLcjgoJmuT1zBZC3SSu3wNeqp8cg4cr2PQ==
+"@react-navigation/drawer@6.6.13":
+  version "6.6.13"
+  resolved "https://registry.npmjs.org/@react-navigation/drawer/-/drawer-6.6.13.tgz#efd346066d17c5cb7ed9d60ffc7e2e528653a370"
+  integrity sha512-fMHucgHqY+n8cOR/GgIK6sYs/L1jnaOEiDcH4lmmPJYSDwKy+Srjl32Z5v1/OG2dzgtMyKFxz2/QfMPas8PQaA==
   dependencies:
-    "@react-navigation/elements" "^1.3.18"
+    "@react-navigation/elements" "^1.3.28"
     color "^4.2.3"
     warn-once "^0.1.0"
 
-"@react-navigation/elements@^1.3.18":
-  version "1.3.21"
-  resolved "https://registry.npmjs.org/@react-navigation/elements/-/elements-1.3.21.tgz#debac6becc6b6692da09ec30e705e476a780dfe1"
-  integrity sha512-eyS2C6McNR8ihUoYfc166O1D8VYVh9KIl0UQPI8/ZJVsStlfSTgeEEh+WXge6+7SFPnZ4ewzEJdSAHH+jzcEfg==
+"@react-navigation/elements@^1.3.18", "@react-navigation/elements@^1.3.28":
+  version "1.3.28"
+  resolved "https://registry.npmjs.org/@react-navigation/elements/-/elements-1.3.28.tgz#9784605a958478538f433233af79943ff951a9b7"
+  integrity sha512-pLKI8RsCuBAXaeTVjJo/ZeOFdZLiJXsnT5DoSpRUCq+B10b53kAI+F1sHhMShB8ALaNPD6RvB45zL8aCBwpuyA==
 
 "@react-navigation/native-stack@6.9.13":
   version "6.9.13"
