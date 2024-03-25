@@ -77,7 +77,7 @@
     "@storybook/addon-essentials": "^6.5.17-alpha.0",
     "@storybook/addon-interactions": "^6.5.17-alpha.0",
     "@storybook/addon-knobs": "6.4.0",
-    "@storybook/addon-links": "^6.5.17-alpha.0",
+    "@storybook/addon-links": "^8.0.4",
     "@storybook/addon-react-native-web": "0.0.19",
     "@storybook/builder-webpack4": "^6.5.17-alpha.0",
     "@storybook/manager-webpack4": "^6.5.17-alpha.0",
