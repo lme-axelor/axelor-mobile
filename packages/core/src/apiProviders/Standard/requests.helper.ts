@@ -25,7 +25,7 @@ interface SearchProps {
   criteria?: Criteria[];
   domain?: string;
   domainContext?: any;
-  fieldKey: string;
+  fieldKey: string | string[];
   sortKey?: string;
   page: number;
   numberElementsByPage?: number;
@@ -86,7 +86,8 @@ class RequestBuilder {
       url: `/ws/rest/${model}/search`,
       data: {
         data: data,
-        fields: getObjectFields(fieldKey),
+        fields:
+          typeof fieldKey === 'string' ? getObjectFields(fieldKey) : fieldKey,
         sortBy: sortKey ? getSortFields(sortKey) : ['id'],
         limit: limit,
         offset: limit * page,
