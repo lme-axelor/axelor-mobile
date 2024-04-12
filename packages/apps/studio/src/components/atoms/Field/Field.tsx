@@ -16,5 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-export {default as ContainerComponent} from './Container/Container';
-export {default as FieldComponent} from './Field/Field';
+import React from 'react';
+import {Text} from '@axelor/aos-mobile-ui';
+import {Field as FieldType} from '../../../types';
+
+const Field = ({field, item}: {field: FieldType; item: any}) => {
+  if (field.widget === 'text') {
+    return <Text>{item?.[field.key]}</Text>;
+  }
+
+  return null;
+};
+
+export default Field;

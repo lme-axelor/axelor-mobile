@@ -19,8 +19,13 @@
 import React, {useCallback, useMemo} from 'react';
 import {Screen, ScrollList} from '@axelor/aos-mobile-ui';
 import {useDispatch, useSelector, useTranslator} from '@axelor/aos-mobile-core';
-import {DisplayContainer, DisplayItem, Screen as ScreenType} from '../types';
-import {ContainerComponent} from '../components';
+import {
+  DisplayContainer,
+  DisplayItem,
+  Field,
+  Screen as ScreenType,
+} from '../types';
+import {ContainerComponent, FieldComponent} from '../components';
 import {formatScreenContent} from '../helpers';
 import {searchDataOfModel} from '../features/modelSlice';
 
@@ -66,17 +71,28 @@ const StudioListView = ({screen = data}: {screen: ScreenType}) => {
 
   const fetchData = useCallback(
     page => {
-      dispatch((searchDataOfModel as any)({modelName: screen.model, page}));
+      dispatch(
+        (searchDataOfModel as any)({
+          modelName: screen.model,
+          page,
+          fields: screen.fields?.map(_i => _i.key),
+        }),
+      );
     },
-    [dispatch, screen.model],
+    [dispatch, screen.fields, screen.model],
   );
 
   const screenConfig = useMemo(() => formatScreenContent(screen), [screen]);
 
   const renderCard = useCallback((displayItem: DisplayItem, item: any) => {
     if ((displayItem as any)?.type != null) {
-      console.log(item);
-      return null;
+      return (
+        <FieldComponent
+          key={displayItem.key}
+          field={displayItem as Field}
+          item={item}
+        />
+      );
     }
 
     return (
@@ -89,7 +105,7 @@ const StudioListView = ({screen = data}: {screen: ScreenType}) => {
   }, []);
 
   const renderItem = useCallback(
-    (item: any) => {
+    ({item}) => {
       return (screenConfig[0] as DisplayContainer).content.map(_c =>
         renderCard(_c, item),
       );
