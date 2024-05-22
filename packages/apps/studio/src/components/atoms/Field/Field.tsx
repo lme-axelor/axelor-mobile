@@ -16,13 +16,51 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
+import React, {useMemo} from 'react';
 import {Text} from '@axelor/aos-mobile-ui';
+import {CustomSearchBar, fetchJsonField} from '@axelor/aos-mobile-core';
 import {Field as FieldType} from '../../../types';
 
-const Field = ({field, item}: {field: FieldType; item: any}) => {
+const Field = ({
+  field,
+  item,
+  screenConfig,
+  onChangeConfig,
+}: {
+  field: FieldType;
+  item?: any;
+  screenConfig: any;
+  onChangeConfig: (current: any) => void;
+}) => {
+  const fieldValue = useMemo(
+    () => fetchJsonField(item, field.key),
+    [field.key, item],
+  );
+
   if (field.widget === 'text') {
-    return <Text>{item?.[field.key]}</Text>;
+    return <Text>{typeof fieldValue === 'string' ? fieldValue : null}</Text>;
+  }
+
+  if (field.widget === 'searchBar') {
+    return (
+      <CustomSearchBar
+        item={{
+          targetModel: field.options.modelName,
+          domain: field.options.domain,
+        }}
+        title={field.title}
+        readonly={field.readonly}
+        required={field.required}
+        onChange={
+          (selectedValue =>
+            onChangeConfig(_current => ({
+              ..._current,
+              [field.key]: selectedValue,
+            }))) as any
+        }
+        defaultValue={screenConfig[field.key]}
+      />
+    );
   }
 
   return null;

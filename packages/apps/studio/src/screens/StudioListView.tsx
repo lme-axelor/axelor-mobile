@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {Screen, ScrollList} from '@axelor/aos-mobile-ui';
 import {useDispatch, useSelector, useTranslator} from '@axelor/aos-mobile-core';
 import {
@@ -33,30 +33,59 @@ const data: ScreenType = {
   model: 'com.axelor.apps.base.db.Product',
   type: 'list',
   panels: [
-    {key: 'listView1', widget: 'listView', parentPanel: null},
-    {key: 'objectCard2', widget: 'objectCard', parentPanel: 'listView1'},
+    {
+      key: 'listView1',
+      widget: 'listView',
+      parentPanel: null,
+      options: {
+        modelName: 'com.axelor.apps.base.db.Product',
+        domain:
+          "self.isModel = false and self.productTypeSelect = 'storable' and self.dtype = 'Product'",
+      },
+    },
+    {
+      key: 'headerContainer2',
+      widget: 'headerContainer',
+      parentPanel: 'listView1',
+      options: {expandableFilter: false},
+    },
+    {key: 'objectCard4', widget: 'objectCard', parentPanel: 'listView1'},
   ],
   fields: [
     {
-      key: 'name',
-      widget: 'text',
+      key: 'productCategory',
+      widget: 'searchBar',
       type: 'hello',
-      parentPanel: 'objectCard2',
-      title: 'Name',
+      parentPanel: 'headerContainer2-fixedItems',
+      options: {modelName: 'com.axelor.apps.base.db.ProductCategory'},
     },
     {
       key: 'code',
       widget: 'text',
       type: 'hello',
-      parentPanel: 'objectCard2',
+      parentPanel: 'objectCard4',
       title: 'Code',
+    },
+    {
+      key: 'name',
+      widget: 'text',
+      type: 'hello',
+      parentPanel: 'objectCard4',
+      title: 'Name',
     },
     {
       key: 'fullName',
       widget: 'text',
       type: 'hello',
-      parentPanel: 'objectCard2',
-      title: 'Details',
+      parentPanel: 'objectCard4',
+      title: 'FullName',
+    },
+    {
+      key: 'productCategory.name',
+      widget: 'text',
+      type: 'hello',
+      parentPanel: 'objectCard4',
+      title: 'Category',
     },
   ],
 };
@@ -69,57 +98,91 @@ const StudioListView = ({screen = data}: {screen: ScreenType}) => {
     (state: any) => state.studio_model,
   );
 
+  const [filters, setFilters] = useState<{[key: string]: any}>({});
+
+  const screenConfig = useMemo(
+    () => formatScreenContent(screen)[0] as DisplayContainer,
+    [screen],
+  );
+
+  const cardItem = useMemo(
+    () => screenConfig.content.find(({widget}) => widget === 'objectCard'),
+    [screenConfig.content],
+  );
+
+  const headerItem = useMemo(
+    () => screenConfig.content.find(({widget}) => widget === 'headerContainer'),
+    [screenConfig.content],
+  );
+
   const fetchData = useCallback(
     page => {
       dispatch(
         (searchDataOfModel as any)({
-          modelName: screen.model,
+          modelName: screenConfig?.options.modelName,
           page,
           fields: screen.fields?.map(_i => _i.key),
+          domain: screenConfig?.options.domain,
         }),
       );
     },
-    [dispatch, screen.fields, screen.model],
+    [dispatch, screenConfig, screen.fields],
   );
 
-  const screenConfig = useMemo(() => formatScreenContent(screen), [screen]);
+  const renderComponents = useCallback(
+    (displayItem: DisplayItem, item?: any) => {
+      if ((displayItem as any)?.type != null) {
+        return (
+          <FieldComponent
+            key={displayItem.key}
+            field={displayItem as Field}
+            item={item}
+            screenConfig={filters}
+            onChangeConfig={setFilters}
+          />
+        );
+      }
 
-  const renderCard = useCallback((displayItem: DisplayItem, item: any) => {
-    if ((displayItem as any)?.type != null) {
       return (
-        <FieldComponent
+        <ContainerComponent
           key={displayItem.key}
-          field={displayItem as Field}
-          item={item}
+          container={displayItem}
+          renderItem={_c => renderComponents(_c, item)}
         />
       );
-    }
-
-    return (
-      <ContainerComponent
-        key={displayItem.key}
-        container={displayItem}
-        renderItem={_c => renderCard(_c, item)}
-      />
-    );
-  }, []);
+    },
+    [filters],
+  );
 
   const renderItem = useCallback(
     ({item}) => {
-      return (screenConfig[0] as DisplayContainer).content.map(_c =>
-        renderCard(_c, item),
-      );
+      return renderComponents(cardItem, item);
     },
-    [renderCard, screenConfig],
+    [cardItem, renderComponents],
   );
 
-  return (
+  const filteredList = useMemo(() => {
+    const _filters = Object.entries(filters).filter(
+      ([_, value]) => value != null,
+    );
+
+    return list?.filter(_item => {
+      return _filters.every(([fieldName, value]) =>
+        typeof _item[fieldName] === 'object'
+          ? _item[fieldName]?.id === value?.id
+          : _item[fieldName] === value,
+      );
+    });
+  }, [filters, list]);
+
+  return !true ? null : (
     <Screen removeSpaceOnTop>
+      {renderComponents(headerItem)}
       <ScrollList
         loadingList={loading}
         moreLoading={moreLoading}
         isListEnd={isListEnd}
-        data={list}
+        data={filteredList}
         fetchData={fetchData}
         renderItem={renderItem}
         translator={I18n.t}

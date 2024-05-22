@@ -61,7 +61,9 @@ const getContentOfPanel = (
     return [];
   }
 
-  let result: DisplayItem[] = fields.filter(_item => _item.parentPanel === key);
+  let result: DisplayItem[] = fields.filter(_item =>
+    _item.parentPanel.includes(key),
+  );
 
   if (panels.length === 0) {
     return result;

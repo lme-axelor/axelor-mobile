@@ -24,7 +24,12 @@ export const ContentType = {
 };
 
 export type WidgetType = keyof typeof ContentType;
-export type WidgetKey = 'listView' | 'objectCard' | 'text';
+export type WidgetKey =
+  | 'listView'
+  | 'objectCard'
+  | 'text'
+  | 'searchBar'
+  | 'headerContainer';
 
 export interface WidgetProps {
   title?: string;
@@ -48,6 +53,7 @@ export interface Container {
   title?: string;
   widget: WidgetKey;
   parentPanel: string;
+  options?: {[key: string]: any};
 }
 
 export type DisplayItem = DisplayContainer | Field;
@@ -65,6 +71,7 @@ export interface Field {
   readonly?: boolean;
   required?: boolean;
   parentPanel: string;
+  options?: {[key: string]: any};
 }
 
 export type ScreenType = 'list' | 'details' | 'form';

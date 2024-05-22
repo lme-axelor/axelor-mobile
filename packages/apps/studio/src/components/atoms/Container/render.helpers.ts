@@ -16,21 +16,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {createStandardSearch} from '@axelor/aos-mobile-core';
+import {DisplayItem} from '../../../types';
 
-export async function searchDataOfModel({
-  page = 0,
-  modelName,
-  fields = [],
-  domain,
-  domainContext,
-}) {
-  return createStandardSearch({
-    model: modelName,
-    criteria: [],
-    domain,
-    domainContext,
-    fieldKey: fields,
-    page,
-  });
-}
+export const renderProp = (
+  propsName: string,
+  allContent: DisplayItem[],
+  renderFunction: (displayItem: DisplayItem) => any,
+) => {
+  return {
+    [propsName]: allContent
+      .filter(({parentPanel}) => parentPanel.includes(propsName))
+      .map(renderFunction),
+  };
+};
+
+export const renderProps = (
+  props: string[],
+  allContent: DisplayItem[],
+  renderFunction: (displayItem: DisplayItem) => any,
+) => {
+  let result = {};
+
+  for (const propName of props) {
+    result = {...result, ...renderProp(propName, allContent, renderFunction)};
+  }
+
+  return result;
+};

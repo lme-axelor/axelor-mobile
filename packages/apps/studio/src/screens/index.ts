@@ -22,5 +22,8 @@ export default {
   StudioListView: {
     title: 'Studio_ListView',
     component: StudioListView,
+    options: {
+      shadedHeader: false,
+    },
   },
 };

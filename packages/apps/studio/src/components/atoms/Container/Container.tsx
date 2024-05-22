@@ -18,8 +18,9 @@
 
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Card} from '@axelor/aos-mobile-ui';
+import {Card, HeaderContainer} from '@axelor/aos-mobile-ui';
 import {DisplayContainer, DisplayItem} from '../../../types';
+import {renderProps} from './render.helpers';
 
 const Container = ({
   container,
@@ -33,6 +34,19 @@ const Container = ({
       <Card style={styles.cardContainer}>
         {container.content.map(renderItem)}
       </Card>
+    );
+  }
+
+  if (container.widget === 'headerContainer') {
+    return (
+      <HeaderContainer
+        {...renderProps(
+          ['topChildren', 'children', 'fixedItems', 'chipComponent'],
+          container.content,
+          renderItem,
+        )}
+        expandableFilter={container.options.expandableFilter}
+      />
     );
   }
 
