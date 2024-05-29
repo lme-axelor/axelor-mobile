@@ -49,6 +49,7 @@ export interface Tool {
 }
 
 export interface Container {
+  id: string;
   key: string;
   title?: string;
   widget: WidgetKey;
@@ -63,6 +64,7 @@ export interface DisplayContainer extends Container {
 }
 
 export interface Field {
+  id: string;
   key: string;
   title?: string;
   type: string;

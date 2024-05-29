@@ -34,6 +34,7 @@ const data: ScreenType = {
   type: 'list',
   panels: [
     {
+      id: 'listView1',
       key: 'listView1',
       widget: 'listView',
       parentPanel: null,
@@ -44,15 +45,27 @@ const data: ScreenType = {
       },
     },
     {
+      id: 'headerContainer2',
       key: 'headerContainer2',
       widget: 'headerContainer',
       parentPanel: 'listView1',
       options: {expandableFilter: false},
     },
-    {key: 'objectCard4', widget: 'objectCard', parentPanel: 'listView1'},
+    {
+      id: 'objectCard4',
+      key: 'objectCard4',
+      widget: 'objectCard',
+      parentPanel: 'listView1',
+      options: {
+        navigateOnPress: true,
+        screenName: 'ProductStockDetailsScreen',
+        getParams: '{product: item}',
+      },
+    },
   ],
   fields: [
     {
+      id: 'searchBar3',
       key: 'productCategory',
       widget: 'searchBar',
       type: 'hello',
@@ -60,6 +73,7 @@ const data: ScreenType = {
       options: {modelName: 'com.axelor.apps.base.db.ProductCategory'},
     },
     {
+      id: 'text5',
       key: 'code',
       widget: 'text',
       type: 'hello',
@@ -67,6 +81,7 @@ const data: ScreenType = {
       title: 'Code',
     },
     {
+      id: 'text6',
       key: 'name',
       widget: 'text',
       type: 'hello',
@@ -74,6 +89,7 @@ const data: ScreenType = {
       title: 'Name',
     },
     {
+      id: 'text7',
       key: 'fullName',
       widget: 'text',
       type: 'hello',
@@ -81,6 +97,7 @@ const data: ScreenType = {
       title: 'FullName',
     },
     {
+      id: 'text8',
       key: 'productCategory.name',
       widget: 'text',
       type: 'hello',
@@ -146,6 +163,7 @@ const StudioListView = ({screen = data}: {screen: ScreenType}) => {
       return (
         <ContainerComponent
           key={displayItem.key}
+          item={item}
           container={displayItem}
           renderItem={_c => renderComponents(_c, item)}
         />

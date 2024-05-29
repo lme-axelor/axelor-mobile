@@ -17,23 +17,51 @@
  */
 
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Card, HeaderContainer} from '@axelor/aos-mobile-ui';
+import {useNavigation} from '@axelor/aos-mobile-core';
 import {DisplayContainer, DisplayItem} from '../../../types';
 import {renderProps} from './render.helpers';
 
 const Container = ({
   container,
+  item: _i,
   renderItem,
 }: {
   container: DisplayContainer;
+  item?: any;
   renderItem: (displayItem: DisplayItem) => any;
 }) => {
+  const navigation = useNavigation();
+
   if (container.widget === 'objectCard') {
+    const getParams = () => {
+      if (container.options?.getParams == null) {
+        return {};
+      }
+
+      try {
+        const validJsonStr = container.options?.getParams.replace(
+          /(['"])?([a-zA-Z0-9_]+)(['"])?:([^/])/g,
+          '"$2":$4',
+        );
+        return JSON.parse(validJsonStr.replaceAll('item', JSON.stringify(_i)));
+      } catch (error) {
+        return {};
+      }
+    };
+
     return (
-      <Card style={styles.cardContainer}>
-        {container.content.map(renderItem)}
-      </Card>
+      <TouchableOpacity
+        disabled={!container.options?.navigateOnPress}
+        onPress={() =>
+          navigation.navigate(container.options?.screenName, getParams())
+        }
+        activeOpacity={0.9}>
+        <Card style={styles.cardContainer}>
+          {container.content.map(renderItem)}
+        </Card>
+      </TouchableOpacity>
     );
   }
 

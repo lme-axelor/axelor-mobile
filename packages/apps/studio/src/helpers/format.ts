@@ -45,7 +45,7 @@ export function formatScreenContent(screen: Screen): DisplayItem[] {
   rootPanels.forEach(_panel => {
     result.push({
       ..._panel,
-      content: getContentOfPanel(_panel.key, fields, panels),
+      content: getContentOfPanel(_panel.id, fields, panels),
     });
   });
 
