@@ -130,11 +130,7 @@ const ActiveCartScreen = ({}) => {
           iconName="check-lg"
           title={I18n.t('Sale_ValidateCart')}
           onPress={() => {
-            activeCart?.partner != null
-              ? () => {
-                  console.log('api');
-                }
-              : setShowPopup(true);
+            activeCart?.partner != null ? () => {} : setShowPopup(true);
           }}
         />
       }>
