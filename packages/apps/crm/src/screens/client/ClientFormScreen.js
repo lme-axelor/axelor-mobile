@@ -18,9 +18,12 @@
 
 import React, {useCallback, useMemo} from 'react';
 import {useSelector, FormView} from '@axelor/aos-mobile-core';
-import {updateClient} from '../../features/clientSlice';
+import {createClient, updateClient} from '../../features/clientSlice';
+import {DeviceEventEmitter} from 'react-native';
 
-const ClientFormScreen = ({navigation}) => {
+const ClientFormScreen = ({navigation, route}) => {
+  const {isCreation = false} = route?.params ?? {};
+
   const {client} = useSelector(state => state.client);
 
   const updateClientAPI = useCallback(
@@ -40,12 +43,36 @@ const ClientFormScreen = ({navigation}) => {
     [navigation],
   );
 
+  const createClientAPI = useCallback(
+    (objectState, dispatch) => {
+      dispatch(
+        createClient({
+          client: {
+            ...objectState,
+            isContact: false,
+            isCorporatePartner: false,
+            isCustomer: true,
+            isEmployee: false,
+          },
+        }),
+      ).then(action => {
+        if (action?.payload?.id) {
+          DeviceEventEmitter.emit('client.creation', {id: action?.payload?.id});
+          navigation.pop();
+        }
+      });
+    },
+    [navigation],
+  );
+
   const _defaultValue = useMemo(() => {
-    return {
-      ...client,
-      email: client.emailAddress?.address,
-    };
-  }, [client]);
+    return isCreation
+      ? null
+      : {
+          ...client,
+          email: client.emailAddress?.address,
+        };
+  }, [client, isCreation]);
 
   return (
     <FormView
@@ -58,8 +85,18 @@ const ClientFormScreen = ({navigation}) => {
           type: 'update',
           needValidation: true,
           needRequiredFields: true,
+          hideIf: () => isCreation,
           customAction: ({dispatch, objectState}) =>
             updateClientAPI(objectState, dispatch),
+        },
+        {
+          key: 'create-client',
+          type: 'create',
+          needValidation: true,
+          needRequiredFields: true,
+          hideIf: () => !isCreation,
+          customAction: ({dispatch, objectState}) =>
+            createClientAPI(objectState, dispatch),
         },
       ]}
     />
