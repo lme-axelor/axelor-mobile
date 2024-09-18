@@ -136,7 +136,6 @@
   "Sale_ValidateCart": "Validate cart",
   "Sale_NoCartAvailable": "No cart available",
   "Sale_LinkQuotationToCustomer": "Link quotation to customer",
-  "Sale_CreateNewCustomer": "Create new customer",
   "Sale_ProductUnavailable": "This product is not available",
   "Sale_SliceAction_FetchSaleConfig": "fetch sale config",
   "Sale_SliceAction_FetchSaleOrder": "fetch sale orders",
@@ -157,5 +156,6 @@
   "Sale_SliceAction_UpdateCart": "update cart",
   "Sale_SliceAction_SearchCartLine": "search cart lines",
   "Sale_SliceAction_DeleteCartLine": "delete cart line",
-  "Sale_SliceAction_UpdateCartLine": "update cart line"
+  "Sale_SliceAction_UpdateCartLine": "update cart line",
+  "Sale_SliceAction_ValidateCart": "validate cart and create sale quotation"
 }
