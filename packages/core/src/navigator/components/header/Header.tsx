@@ -48,7 +48,7 @@ const Header = ({
 }: HeaderProps) => {
   const Colors = useThemeColor();
   const I18n = useTranslator();
-  let timeOutRequestCall = useRef<number>();
+  let timeOutRequestCall = useRef<number>(null);
 
   const {setHeaderHeight} = useConfig();
   const {allBands} = useHeaderBand();
