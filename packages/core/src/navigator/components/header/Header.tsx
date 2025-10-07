@@ -126,7 +126,7 @@ const getHeaderStyles = Colors =>
       left: Platform.OS === 'ios' ? -Dimensions.get('window').width * 0.5 : -15,
       backgroundColor: Colors.backgroundColor,
       height: '100%',
-      width: Dimensions.get('screen').width,
+      width: Dimensions.get('window').width,
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
