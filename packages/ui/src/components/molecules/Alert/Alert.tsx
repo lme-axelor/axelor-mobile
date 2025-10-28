@@ -106,7 +106,7 @@ const Alert = ({
       transparent
       animationType="fade"
       onRequestClose={_cancelButtonConfig?.onPress}>
-      <View style={styles.modalBackground}>
+      <View style={styles.modalBackground} testID="modalContainer">
         <Card style={[styles.container, style]}>
           <View style={styles.headerContainer}>
             {!checkNullString(title) && (

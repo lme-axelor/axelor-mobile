@@ -55,7 +55,9 @@ const NumberBubble = ({
   const styles = useMemo(() => getStyles(_color, size), [_color, size]);
 
   return (
-    <View style={[styles.bubble, style]}>
+    <View
+      style={[styles.bubble, style]}
+      testID={`numberBubbleContainer-${number}`}>
       <Text textColor={_color.foreground} fontSize={size * 0.55}>
         {number}
       </Text>
