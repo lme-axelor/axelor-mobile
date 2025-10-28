@@ -66,7 +66,8 @@ const SelectionItem = ({
     <TouchableOpacity
       style={[itemStyles.item, style]}
       onPress={onPress}
-      disabled={readonly}>
+      disabled={readonly}
+      testID="selectionItemTouchable">
       {isPicker && (
         <Icon
           style={itemStyles.icon}

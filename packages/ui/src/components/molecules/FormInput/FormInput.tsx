@@ -93,7 +93,7 @@ const FormInput = ({
   }, [defaultValue]);
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, style]} testID="formInputContainer">
       {!checkNullString(title) && <Text style={styles.title}>{title}</Text>}
       <View
         style={[
