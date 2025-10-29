@@ -53,7 +53,7 @@ const ViewAllContainer = ({
   return (
     <Card style={[styles.container, style]}>
       {isHeaderExist && (
-        <View style={styles.headLineMove}>
+        <View style={styles.headLineMove} testID="viewAllContainerHeader">
           <Text>
             {translator == null ? 'Content' : translator('Base_Content')}
           </Text>
