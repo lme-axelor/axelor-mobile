@@ -102,6 +102,7 @@ const Alert = ({
 
   return (
     <Modal
+      testID="alertModal"
       visible={visible}
       transparent
       animationType="fade"
@@ -137,10 +138,14 @@ const Alert = ({
             isConfirmButtonDisplayedBottom) && (
             <View style={[styles.buttonsContainer, buttonsContainerStyle]}>
               {isCancelButtonDisplayedBottom && (
-                <Button {..._cancelButtonConfig} style={styles.cancelButton} />
+                <Button
+                  {..._cancelButtonConfig}
+                  testID="alertCancelButton"
+                  style={styles.cancelButton}
+                />
               )}
               {isConfirmButtonDisplayedBottom && (
-                <Button {..._confirmButtonConfig} />
+                <Button {..._confirmButtonConfig} testID="alertConfirmButton" />
               )}
             </View>
           )}
