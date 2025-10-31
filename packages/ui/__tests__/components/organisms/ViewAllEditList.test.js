@@ -69,9 +69,8 @@ describe('ViewAllEditList Component', () => {
     const {getByTestId, getByText, props} = setupViewAllEditList();
 
     expect(getByText(props.title)).toBeTruthy();
-    expect(
-      getByTestId(`numberBubbleContainer-${props.lines.length}`),
-    ).toBeTruthy();
+    expect(getByTestId('numberBubbleContainer')).toBeTruthy();
+    expect(getByText(props.lines.length.toString())).toBeTruthy();
   });
 
   it('should open modal with right title when click on view all button', () => {
